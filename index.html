@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Video Downloader - No Watermark</title>
+    <title>TikTok Video Downloader</title>
     <style>
         * {
             margin: 0;
@@ -209,11 +209,6 @@
         
         <div class="content">
             <div class="form-group">
-                <label for="api-key">RapidAPI Key</label>
-                <input type="text" id="api-key" placeholder="Enter your RapidAPI key">
-            </div>
-            
-            <div class="form-group">
                 <label for="tiktok-url">TikTok Video URL</label>
                 <input type="text" id="tiktok-url" placeholder="Paste TikTok video link here">
             </div>
@@ -236,22 +231,22 @@
             <div class="instructions">
                 <h3>How to use:</h3>
                 <ol>
-                    <li>Get your API key from <a href="https://rapidapi.com/yi005/api/tiktok-video-no-watermark2/" target="_blank">RapidAPI</a></li>
-                    <li>Paste your API key in the field above</li>
-                    <li>Copy the TikTok video URL from the app or website</li>
-                    <li>Paste the URL and click "Download Video"</li>
+                    <li>Open TikTok and find the video you want to download</li>
+                    <li>Tap the "Share" button and copy the link</li>
+                    <li>Paste the link in the field above</li>
+                    <li>Click "Download Video" and wait for processing</li>
+                    <li>Download your video without watermark</li>
                 </ol>
             </div>
         </div>
         
         <div class="footer">
-            <p>This tool uses the TikTok Video No Watermark API from RapidAPI</p>
+            <p>This is a frontend simulation. Actual downloading requires backend processing.</p>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const apiKeyInput = document.getElementById('api-key');
             const tiktokUrlInput = document.getElementById('tiktok-url');
             const downloadBtn = document.getElementById('download-btn');
             const loading = document.getElementById('loading');
@@ -261,19 +256,13 @@
             const errorMessage = document.getElementById('error-message');
             
             downloadBtn.addEventListener('click', function() {
-                const apiKey = apiKeyInput.value.trim();
                 const tiktokUrl = tiktokUrlInput.value.trim();
                 
                 // Reset previous states
                 errorMessage.classList.remove('active');
                 result.classList.remove('active');
                 
-                // Validate inputs
-                if (!apiKey) {
-                    showError('Please enter your RapidAPI key');
-                    return;
-                }
-                
+                // Validate input
                 if (!tiktokUrl) {
                     showError('Please enter a TikTok URL');
                     return;
@@ -287,13 +276,12 @@
                 // Show loading state
                 loading.classList.add('active');
                 
-                // In a real implementation, you would make an API call here
-                // For demonstration, we'll simulate the API response after a delay
+                // Simulate API processing
                 setTimeout(() => {
                     loading.classList.remove('active');
                     
-                    // Simulate successful response
-                    // In reality, you would get the video URL from the API response
+                    // For demonstration, we'll use a sample video
+                    // In a real implementation, you would get the video URL from an API
                     const videoUrl = 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4';
                     
                     // Set video source and download link
@@ -304,35 +292,6 @@
                     // Show result
                     result.classList.add('active');
                 }, 2000);
-                
-                // Real implementation would look something like this:
-                /*
-                fetch(`https://tiktok-video-no-watermark2.p.rapidapi.com/?url=${encodeURIComponent(tiktokUrl)}`, {
-                    method: 'GET',
-                    headers: {
-                        'X-RapidAPI-Key': apiKey,
-                        'X-RapidAPI-Host': 'tiktok-video-no-watermark2.p.rapidapi.com'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    loading.classList.remove('active');
-                    
-                    if (data.data && data.data.play) {
-                        videoPreview.src = data.data.play;
-                        downloadLink.href = data.data.play;
-                        downloadLink.download = 'tiktok-video.mp4';
-                        result.classList.add('active');
-                    } else {
-                        showError('Could not retrieve video. Please check your URL and API key.');
-                    }
-                })
-                .catch(error => {
-                    loading.classList.remove('active');
-                    showError('An error occurred. Please try again.');
-                    console.error('Error:', error);
-                });
-                */
             });
             
             function showError(message) {
