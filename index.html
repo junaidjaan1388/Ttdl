@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Video Downloader - No Watermark</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #ff0050, #00f2ea);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            border-color: #a777e3;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(167, 119, 227, 0.2);
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #ff0050, #00f2ea);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result.active {
+            display: block;
+        }
+        
+        .video-preview {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background-color: #ff0050;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            background-color: #e00046;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #ff0050;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .instructions {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: #777;
+            border-top: 1px solid #eee;
+        }
+        
+        .error {
+            color: #ff0050;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .error.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TikTok Video Downloader</h1>
+            <p>Download TikTok videos without watermark</p>
+        </div>
+        
+        <div class="content">
+            <div class="form-group">
+                <label for="api-key">RapidAPI Key</label>
+                <input type="text" id="api-key" placeholder="Enter your RapidAPI key">
+            </div>
+            
+            <div class="form-group">
+                <label for="tiktok-url">TikTok Video URL</label>
+                <input type="text" id="tiktok-url" placeholder="Paste TikTok video link here">
+            </div>
+            
+            <button class="btn" id="download-btn">Download Video</button>
+            
+            <div class="error" id="error-message"></div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing your request...</p>
+            </div>
+            
+            <div class="result" id="result">
+                <h3>Video Ready for Download</h3>
+                <video class="video-preview" id="video-preview" controls></video>
+                <a href="#" class="download-btn" id="download-link">Download Video</a>
+            </div>
+            
+            <div class="instructions">
+                <h3>How to use:</h3>
+                <ol>
+                    <li>Get your API key from <a href="https://rapidapi.com/yi005/api/tiktok-video-no-watermark2/" target="_blank">RapidAPI</a></li>
+                    <li>Paste your API key in the field above</li>
+                    <li>Copy the TikTok video URL from the app or website</li>
+                    <li>Paste the URL and click "Download Video"</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>This tool uses the TikTok Video No Watermark API from RapidAPI</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const apiKeyInput = document.getElementById('api-key');
+            const tiktokUrlInput = document.getElementById('tiktok-url');
+            const downloadBtn = document.getElementById('download-btn');
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const videoPreview = document.getElementById('video-preview');
+            const downloadLink = document.getElementById('download-link');
+            const errorMessage = document.getElementById('error-message');
+            
+            downloadBtn.addEventListener('click', function() {
+                const apiKey = apiKeyInput.value.trim();
+                const tiktokUrl = tiktokUrlInput.value.trim();
+                
+                // Reset previous states
+                errorMessage.classList.remove('active');
+                result.classList.remove('active');
+                
+                // Validate inputs
+                if (!apiKey) {
+                    showError('Please enter your RapidAPI key');
+                    return;
+                }
+                
+                if (!tiktokUrl) {
+                    showError('Please enter a TikTok URL');
+                    return;
+                }
+                
+                if (!isValidTikTokUrl(tiktokUrl)) {
+                    showError('Please enter a valid TikTok URL');
+                    return;
+                }
+                
+                // Show loading state
+                loading.classList.add('active');
+                
+                // In a real implementation, you would make an API call here
+                // For demonstration, we'll simulate the API response after a delay
+                setTimeout(() => {
+                    loading.classList.remove('active');
+                    
+                    // Simulate successful response
+                    // In reality, you would get the video URL from the API response
+                    const videoUrl = 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4';
+                    
+                    // Set video source and download link
+                    videoPreview.src = videoUrl;
+                    downloadLink.href = videoUrl;
+                    downloadLink.download = 'tiktok-video.mp4';
+                    
+                    // Show result
+                    result.classList.add('active');
+                }, 2000);
+                
+                // Real implementation would look something like this:
+                /*
+                fetch(`https://tiktok-video-no-watermark2.p.rapidapi.com/?url=${encodeURIComponent(tiktokUrl)}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-RapidAPI-Key': apiKey,
+                        'X-RapidAPI-Host': 'tiktok-video-no-watermark2.p.rapidapi.com'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    loading.classList.remove('active');
+                    
+                    if (data.data && data.data.play) {
+                        videoPreview.src = data.data.play;
+                        downloadLink.href = data.data.play;
+                        downloadLink.download = 'tiktok-video.mp4';
+                        result.classList.add('active');
+                    } else {
+                        showError('Could not retrieve video. Please check your URL and API key.');
+                    }
+                })
+                .catch(error => {
+                    loading.classList.remove('active');
+                    showError('An error occurred. Please try again.');
+                    console.error('Error:', error);
+                });
+                */
+            });
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.classList.add('active');
+            }
+            
+            function isValidTikTokUrl(url) {
+                const tiktokRegex = /https?:\/\/(www\.)?tiktok\.com\/.+/;
+                return tiktokRegex.test(url);
+            }
+        });
+    </script>
+</body>
+</html>
