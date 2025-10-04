@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,10 @@
             --color-accent-fg: #0969da;
             --color-border-default: #d0d7de;
             --color-border-muted: #d8dee4;
+            --xp-blue: #0078d7;
+            --xp-green: #00a300;
+            --xp-silver: #c0c0c0;
+            --xp-dark-blue: #005a9e;
         }
         
         * {
@@ -124,6 +128,149 @@
         .btn-block {
             display: block;
             width: 100%;
+        }
+        
+        /* Windows XP Progress Bar Styles */
+        .xp-progress-container {
+            background: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            padding: 2px;
+            margin: 1rem 0;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .xp-progress-bar {
+            background: linear-gradient(to bottom, 
+                #3c7fb1 0%, 
+                #3c7fb1 50%, 
+                #2d6b9e 51%, 
+                #2d6b9e 100%);
+            height: 20px;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .xp-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, 
+                rgba(255,255,255,0.3) 0%, 
+                rgba(255,255,255,0.1) 50%, 
+                rgba(0,0,0,0.1) 51%, 
+                rgba(0,0,0,0.3) 100%);
+            pointer-events: none;
+        }
+        
+        .xp-progress-bar.animated::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255,255,255,0.4) 50%, 
+                transparent 100%);
+            animation: xp-shine 2s infinite;
+        }
+        
+        @keyframes xp-shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .xp-progress-text {
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            font-size: 11px;
+            color: #000;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        .xp-progress-stages {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .xp-stage {
+            text-align: center;
+            flex: 1;
+            padding: 2px;
+        }
+        
+        .xp-stage.active {
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .xp-stage.completed::before {
+            content: '✓ ';
+            color: green;
+        }
+        
+        .xp-download-window {
+            background: #ece9d8;
+            border: 2px solid #003c74;
+            border-radius: 0;
+            padding: 15px;
+            margin: 1rem 0;
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .xp-window-title {
+            background: linear-gradient(to right, #0a246a, #a6caf0);
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: -15px -15px 10px -15px;
+            border-bottom: 1px solid #003c74;
+        }
+        
+        .xp-file-info {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 11px;
+        }
+        
+        .xp-buttons {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .xp-button {
+            background: linear-gradient(to bottom, #f0f0f0, #d4d4d4);
+            border: 1px solid #7c7c7c;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        
+        .xp-button:hover {
+            background: linear-gradient(to bottom, #e8e8e8, #c8c8c8);
+        }
+        
+        .xp-button:active {
+            background: linear-gradient(to bottom, #d4d4d4, #f0f0f0);
         }
         
         .loading {
@@ -326,6 +473,15 @@
             padding-right: 2rem;
         }
         
+        .progress-section {
+            display: none;
+            margin: 1.5rem 0;
+        }
+        
+        .progress-section.active {
+            display: block;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 0 1rem;
@@ -341,6 +497,10 @@
             
             .download-btn {
                 justify-content: center;
+            }
+            
+            .xp-buttons {
+                flex-direction: column;
             }
         }
     </style>
@@ -405,6 +565,39 @@
                 <div class="flash flash-error" id="error-message" style="display: none;"></div>
                 <div class="flash flash-success" id="success-message" style="display: none;"></div>
 
+                <!-- Windows XP Download Progress Section -->
+                <div class="progress-section" id="progress-section">
+                    <div class="xp-download-window">
+                        <div class="xp-window-title">Download Progress</div>
+                        
+                        <div class="xp-file-info">
+                            <div><strong>File:</strong> <span id="xp-filename">tiktok_video.mp4</span></div>
+                            <div><strong>From:</strong> <span id="xp-source">tiktok.com</span></div>
+                            <div><strong>Size:</strong> <span id="xp-filesize">Calculating...</span></div>
+                        </div>
+                        
+                        <div class="xp-progress-container">
+                            <div class="xp-progress-bar" id="xp-progress-bar"></div>
+                        </div>
+                        
+                        <div class="xp-progress-text" id="xp-progress-text">0% Complete</div>
+                        
+                        <div class="xp-progress-stages">
+                            <div class="xp-stage" id="stage-1">Initializing</div>
+                            <div class="xp-stage" id="stage-2">Connecting</div>
+                            <div class="xp-stage" id="stage-3">Downloading</div>
+                            <div class="xp-stage" id="stage-4">Processing</div>
+                            <div class="xp-stage" id="stage-5">Complete</div>
+                        </div>
+                        
+                        <div class="xp-buttons">
+                            <button class="xp-button" id="xp-pause-btn">Pause</button>
+                            <button class="xp-button" id="xp-cancel-btn">Cancel</button>
+                            <button class="xp-button" id="xp-details-btn" style="display: none;">Details</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="result" id="result">
                     <h3 style="margin-bottom: 1rem; font-size: 1.125rem;">Video Ready for Download</h3>
                     
@@ -436,23 +629,9 @@
                     <li>Enter your API key in the configuration section above</li>
                     <li>Paste a TikTok video URL or enter a username</li>
                     <li>Click "Download Video" to process</li>
+                    <li>Watch the Windows XP-style progress bar</li>
                     <li>Choose your preferred download option</li>
                 </ol>
-            </div>
-
-            <div class="instructions">
-                <h3>API Information</h3>
-                <p style="font-size: 0.875rem; color: #656d76; margin-bottom: 1rem;">
-                    This tool uses the <span class="code">tiktok-video-no-watermark2</span> API from RapidAPI.
-                    The API provides access to TikTok videos without watermarks.
-                </p>
-                <div style="font-size: 0.75rem; color: #656d76;">
-                    <strong>Endpoints:</strong>
-                    <ul style="margin-top: 0.5rem; padding-left: 1rem;">
-                        <li><span class="code">/</span> - Single video download</li>
-                        <li><span class="code">/user/feed</span> - User video feed</li>
-                    </ul>
-                </div>
             </div>
         </div>
     </main>
@@ -472,6 +651,9 @@
         class TikTokDownloader {
             constructor() {
                 this.apiHost = 'tiktok-video-no-watermark2.p.rapidapi.com';
+                this.isDownloading = false;
+                this.currentProgress = 0;
+                this.progressInterval = null;
                 this.init();
             }
 
@@ -486,7 +668,12 @@
                 document.getElementById('api-key').addEventListener('input', () => this.updateApiStatus());
                 
                 // Fetch button
-                document.getElementById('fetch-btn').addEventListener('click', () => this.fetchVideo());
+                document.getElementById('fetch-btn').addEventListener('click', () => this.startDownloadProcess());
+                
+                // XP Progress buttons
+                document.getElementById('xp-pause-btn').addEventListener('click', () => this.togglePause());
+                document.getElementById('xp-cancel-btn').addEventListener('click', () => this.cancelDownload());
+                document.getElementById('xp-details-btn').addEventListener('click', () => this.showDetails());
                 
                 // Download buttons
                 document.getElementById('download-no-watermark').addEventListener('click', (e) => {
@@ -529,7 +716,7 @@
                 }
             }
 
-            async fetchVideo() {
+            async startDownloadProcess() {
                 const apiKey = document.getElementById('api-key').value.trim();
                 const endpointType = document.getElementById('endpoint-type').value;
                 
@@ -562,7 +749,149 @@
                 }
 
                 this.setLoading(true);
+                this.showProgressSection();
+                this.startProgressAnimation();
 
+                try {
+                    // Simulate API call with progress updates
+                    await this.simulateDownloadWithProgress(url);
+                    
+                    // After "download", process the actual API call
+                    await this.fetchVideoData(url, endpointType, apiKey);
+                    
+                } catch (error) {
+                    console.error('Download Failed:', error);
+                    this.showError(`Download failed: ${error.message}`);
+                    this.completeProgress(true); // Complete with error
+                }
+            }
+
+            startProgressAnimation() {
+                this.isDownloading = true;
+                this.currentProgress = 0;
+                this.updateProgress(0);
+                this.updateStage(1);
+                
+                this.progressInterval = setInterval(() => {
+                    if (this.isDownloading) {
+                        this.currentProgress += Math.random() * 5;
+                        if (this.currentProgress >= 100) {
+                            this.currentProgress = 100;
+                            this.completeProgress();
+                        }
+                        this.updateProgress(this.currentProgress);
+                        
+                        // Update stages based on progress
+                        if (this.currentProgress >= 20) this.updateStage(2);
+                        if (this.currentProgress >= 40) this.updateStage(3);
+                        if (this.currentProgress >= 70) this.updateStage(4);
+                    }
+                }, 200);
+            }
+
+            updateProgress(percentage) {
+                const progressBar = document.getElementById('xp-progress-bar');
+                const progressText = document.getElementById('xp-progress-text');
+                
+                progressBar.style.width = `${percentage}%`;
+                progressText.textContent = `${Math.round(percentage)}% Complete`;
+                
+                // Add animation when downloading
+                if (percentage > 0 && percentage < 100) {
+                    progressBar.classList.add('animated');
+                } else {
+                    progressBar.classList.remove('animated');
+                }
+            }
+
+            updateStage(stageNumber) {
+                // Reset all stages
+                for (let i = 1; i <= 5; i++) {
+                    const stage = document.getElementById(`stage-${i}`);
+                    stage.classList.remove('active', 'completed');
+                }
+                
+                // Set current and completed stages
+                for (let i = 1; i <= stageNumber; i++) {
+                    const stage = document.getElementById(`stage-${i}`);
+                    if (i === stageNumber) {
+                        stage.classList.add('active');
+                    } else {
+                        stage.classList.add('completed');
+                    }
+                }
+            }
+
+            completeProgress(isError = false) {
+                clearInterval(this.progressInterval);
+                this.isDownloading = false;
+                
+                if (isError) {
+                    this.updateProgress(0);
+                    this.updateStage(1);
+                    document.getElementById('xp-progress-text').textContent = 'Download Failed';
+                    document.getElementById('xp-progress-bar').style.background = 'linear-gradient(to bottom, #ff6b6b, #ff4757)';
+                } else {
+                    this.updateProgress(100);
+                    this.updateStage(5);
+                    document.getElementById('xp-progress-text').textContent = 'Download Complete!';
+                    document.getElementById('xp-details-btn').style.display = 'inline-block';
+                }
+            }
+
+            togglePause() {
+                this.isDownloading = !this.isDownloading;
+                const pauseBtn = document.getElementById('xp-pause-btn');
+                pauseBtn.textContent = this.isDownloading ? 'Pause' : 'Resume';
+            }
+
+            cancelDownload() {
+                clearInterval(this.progressInterval);
+                this.isDownloading = false;
+                this.hideProgressSection();
+                this.setLoading(false);
+                this.showError('Download cancelled by user');
+            }
+
+            showDetails() {
+                this.showSuccess('Download details: Video processed successfully and ready for download.');
+            }
+
+            showProgressSection() {
+                document.getElementById('progress-section').classList.add('active');
+                
+                // Update file info
+                const url = document.getElementById('tiktok-url').value.trim() || 
+                           `https://www.tiktok.com/@${document.getElementById('tiktok-username').value.trim()}`;
+                document.getElementById('xp-filename').textContent = this.extractFilename(url);
+                document.getElementById('xp-source').textContent = new URL(url).hostname;
+                document.getElementById('xp-filesize').textContent = '~5-15 MB (estimated)';
+            }
+
+            hideProgressSection() {
+                document.getElementById('progress-section').classList.remove('active');
+            }
+
+            extractFilename(url) {
+                try {
+                    const urlObj = new URL(url);
+                    const pathParts = urlObj.pathname.split('/');
+                    const videoId = pathParts[pathParts.length - 1];
+                    return `tiktok_${videoId || 'video'}.mp4`;
+                } catch {
+                    return 'tiktok_video.mp4';
+                }
+            }
+
+            async simulateDownloadWithProgress(url) {
+                return new Promise((resolve) => {
+                    // This is just for simulation - in real implementation, 
+                    // you'd track actual download progress
+                    setTimeout(resolve, 3000);
+                });
+            }
+
+            async fetchVideoData(url, endpointType, apiKey) {
                 try {
                     let apiUrl, params;
                     
@@ -588,10 +917,7 @@
                     }
                 } catch (error) {
                     console.error('API Call Failed:', error);
-                    this.showError(`Failed to fetch video: ${error.message}`);
-                    this.simulateSuccess(); // Fallback to simulation
-                } finally {
-                    this.setLoading(false);
+                    throw error;
                 }
             }
 
@@ -625,12 +951,11 @@
                 }
 
                 if (!videoData) {
-                    this.showError('No video data found in response');
-                    return;
+                    throw new Error('No video data found in response');
                 }
 
                 this.displayVideoResult(videoData);
-                this.showSuccess('Video data fetched successfully!');
+                this.showSuccess('Video downloaded and processed successfully!');
             }
 
             displayVideoResult(videoData) {
@@ -648,27 +973,13 @@
                     
                     document.getElementById('result').classList.add('active');
                 } else {
-                    this.showError('No video URL found in response');
+                    throw new Error('No video URL found in response');
                 }
             }
 
             downloadVideo(type) {
                 this.showSuccess(`Starting ${type} download...`);
                 // In a real implementation, this would trigger the actual download
-            }
-
-            // Simulation for demo purposes
-            simulateSuccess() {
-                const sampleVideoUrl = 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4';
-                
-                document.getElementById('video-preview').src = sampleVideoUrl;
-                document.getElementById('download-no-watermark').href = sampleVideoUrl;
-                document.getElementById('download-no-watermark').download = 'tiktok-video-demo.mp4';
-                document.getElementById('download-watermark').href = sampleVideoUrl;
-                document.getElementById('download-watermark').download = 'tiktok-video-demo-watermark.mp4';
-                
-                document.getElementById('result').classList.add('active');
-                this.showSuccess('Demo: Video ready for download (using sample video)');
             }
 
             // Utility methods
@@ -727,4 +1038,4 @@
         });
     </script>
 </body>
-</html>       
+</html>
