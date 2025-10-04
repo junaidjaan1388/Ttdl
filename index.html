@@ -3,19 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Video Downloader · GitHub Pages</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primer/21.0.6/primer.css">
+    <title>TikTok Video Downloader - Windows XP</title>
     <style>
-        :root {
-            --color-accent-fg: #0969da;
-            --color-border-default: #d0d7de;
-            --color-border-muted: #d8dee4;
-            --xp-blue: #0078d7;
-            --xp-green: #00a300;
-            --xp-silver: #c0c0c0;
-            --xp-dark-blue: #005a9e;
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -23,138 +12,193 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-            line-height: 1.5;
-            color: #1F2328;
-            background-color: #ffffff;
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            background: #008080 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.1"><rect fill="%23008080" width="100" height="100"/><path d="M0 0L100 100M100 0L0 100" stroke="%2300a000" stroke-width="1"/></svg>');
+            color: #000;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
         
-        .header {
-            background-color: #f6f8fa;
-            border-bottom: 1px solid var(--color-border-default);
-            padding: 2rem 0;
-        }
-        
-        .container {
-            max-width: 768px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-        
-        .header-content {
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #1F2328;
-        }
-        
-        .header p {
-            color: #656d76;
-            font-size: 1.1rem;
-        }
-        
-        .main-content {
-            flex: 1;
-            padding: 3rem 0;
-        }
-        
-        .card {
-            background: #ffffff;
-            border: 1px solid var(--color-border-default);
-            border-radius: 6px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-        }
-        
-        .form-control {
+        .desktop {
             width: 100%;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.875rem;
-            border: 1px solid var(--color-border-default);
-            border-radius: 6px;
-            background-color: #ffffff;
-            transition: border-color 0.2s ease;
+            max-width: 900px;
         }
         
-        .form-control:focus {
-            outline: none;
-            border-color: var(--color-accent-fg);
-            box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
+        /* Taskbar */
+        .taskbar {
+            background: linear-gradient(to bottom, #245edc 0%, #1b4eb9 50%, #0f3b9e 51%, #1b4eb9 100%);
+            height: 40px;
+            border-top: 1px solid #608fe8;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            position: relative;
+            z-index: 1000;
         }
         
-        .btn {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            text-align: center;
-            text-decoration: none;
-            border: 1px solid transparent;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            background-color: #2da44e;
-            color: #ffffff;
-            width: 100%;
-        }
-        
-        .btn:hover {
-            background-color: #2c974b;
-        }
-        
-        .btn:disabled {
-            background-color: #94d3a2;
-            cursor: not-allowed;
-        }
-        
-        .btn-block {
-            display: block;
-            width: 100%;
-        }
-        
-        /* Windows XP Progress Bar Styles */
-        .xp-progress-container {
-            background: #f1f1f1;
-            border: 1px solid #ccc;
+        .start-button {
+            background: linear-gradient(to bottom, #5cb300 0%, #4c9900 50%, #408000 51%, #4c9900 100%);
+            border: 1px solid #2d6600;
+            color: white;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: bold;
             border-radius: 3px;
-            padding: 2px;
-            margin: 1rem 0;
-            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
-        .xp-progress-bar {
+        .start-button:hover {
+            background: linear-gradient(to bottom, #66cc00 0%, #55aa00 50%, #448800 51%, #55aa00 100%);
+        }
+        
+        .taskbar-time {
+            color: white;
+            font-size: 11px;
+            margin-left: auto;
+            padding: 4px 8px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 3px;
+        }
+        
+        /* Main Window */
+        .xp-window {
+            background: #ece9d8;
+            border: 2px solid #003c74;
+            border-radius: 0;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+        
+        .window-title {
+            background: linear-gradient(to right, #0a246a, #a6caf0);
+            color: white;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-bottom: 1px solid #003c74;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .window-controls {
+            display: flex;
+            gap: 2px;
+        }
+        
+        .window-control {
+            width: 16px;
+            height: 14px;
+            background: #c0c0c0;
+            border: 1px solid #808080;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .window-control:hover {
+            background: #d4d4d4;
+        }
+        
+        .window-content {
+            padding: 20px;
+        }
+        
+        /* XP Form Elements */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #000;
+        }
+        
+        .xp-input {
+            width: 100%;
+            padding: 4px 6px;
+            border: 2px inset #c0c0c0;
+            background: white;
+            font-size: 11px;
+            font-family: 'Tahoma', 'Arial', sans-serif;
+        }
+        
+        .xp-input:focus {
+            outline: 1px dotted #000;
+        }
+        
+        .xp-select {
+            width: 100%;
+            padding: 3px;
+            border: 2px inset #c0c0c0;
+            background: white;
+            font-size: 11px;
+            font-family: 'Tahoma', 'Arial', sans-serif;
+        }
+        
+        .xp-button {
+            background: linear-gradient(to bottom, #f0f0f0, #d4d4d4);
+            border: 1px solid #7c7c7c;
+            padding: 6px 16px;
+            font-size: 11px;
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            cursor: pointer;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .xp-button:hover {
+            background: linear-gradient(to bottom, #e8e8e8, #c8c8c8);
+        }
+        
+        .xp-button:active {
+            background: linear-gradient(to bottom, #d4d4d4, #f0f0f0);
+            border: 1px inset #7c7c7c;
+        }
+        
+        .xp-button.primary {
+            background: linear-gradient(to bottom, #245edc, #1b4eb9);
+            color: white;
+            border: 1px solid #0f3b9e;
+        }
+        
+        .xp-button.primary:hover {
+            background: linear-gradient(to bottom, #2d6bec, #2358c6);
+        }
+        
+        /* Progress Bars */
+        .progress-container {
+            background: #f1f1f1;
+            border: 2px inset #c0c0c0;
+            padding: 2px;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
             background: linear-gradient(to bottom, 
                 #3c7fb1 0%, 
                 #3c7fb1 50%, 
                 #2d6b9e 51%, 
                 #2d6b9e 100%);
-            height: 20px;
-            border-radius: 2px;
+            height: 18px;
             width: 0%;
             transition: width 0.3s ease;
             position: relative;
             overflow: hidden;
         }
         
-        .xp-progress-bar::after {
+        .progress-bar::after {
             content: '';
             position: absolute;
             top: 0;
@@ -169,7 +213,7 @@
             pointer-events: none;
         }
         
-        .xp-progress-bar.animated::before {
+        .progress-bar.animated::before {
             content: '';
             position: absolute;
             top: 0;
@@ -188,531 +232,476 @@
             100% { left: 100%; }
         }
         
-        .xp-progress-text {
-            font-family: 'Tahoma', 'Arial', sans-serif;
-            font-size: 11px;
+        .progress-text {
+            font-size: 10px;
             color: #000;
             text-align: center;
-            margin-top: 5px;
+            margin-top: 4px;
         }
         
-        .xp-progress-stages {
+        /* Status Sections */
+        .status-section {
+            display: none;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border: 2px inset #c0c0c0;
+        }
+        
+        .status-section.active {
+            display: block;
+        }
+        
+        .status-title {
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #000;
+        }
+        
+        .status-stages {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
-            font-family: 'Tahoma', 'Arial', sans-serif;
-            font-size: 10px;
-            color: #666;
+            margin: 10px 0;
+            font-size: 9px;
         }
         
-        .xp-stage {
+        .status-stage {
             text-align: center;
             flex: 1;
             padding: 2px;
         }
         
-        .xp-stage.active {
+        .status-stage.active {
             color: #000;
             font-weight: bold;
         }
         
-        .xp-stage.completed::before {
+        .status-stage.completed::before {
             content: '✓ ';
             color: green;
         }
         
-        .xp-download-window {
-            background: #ece9d8;
-            border: 2px solid #003c74;
-            border-radius: 0;
-            padding: 15px;
-            margin: 1rem 0;
-            font-family: 'Tahoma', 'Arial', sans-serif;
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
-        }
-        
-        .xp-window-title {
-            background: linear-gradient(to right, #0a246a, #a6caf0);
-            color: white;
-            padding: 4px 8px;
-            font-size: 12px;
-            font-weight: bold;
-            margin: -15px -15px 10px -15px;
-            border-bottom: 1px solid #003c74;
-        }
-        
-        .xp-file-info {
+        /* File Info */
+        .file-info {
             background: white;
-            border: 1px solid #ccc;
+            border: 2px inset #c0c0c0;
             padding: 10px;
             margin: 10px 0;
-            font-size: 11px;
+            font-size: 10px;
         }
         
-        .xp-buttons {
+        .file-info-row {
             display: flex;
-            gap: 5px;
-            margin-top: 10px;
+            margin-bottom: 4px;
         }
         
-        .xp-button {
-            background: linear-gradient(to bottom, #f0f0f0, #d4d4d4);
-            border: 1px solid #7c7c7c;
-            padding: 4px 12px;
-            font-size: 11px;
-            font-family: 'Tahoma', 'Arial', sans-serif;
-            cursor: pointer;
-            border-radius: 3px;
+        .file-info-label {
+            font-weight: bold;
+            width: 80px;
         }
         
-        .xp-button:hover {
-            background: linear-gradient(to bottom, #e8e8e8, #c8c8c8);
-        }
-        
-        .xp-button:active {
-            background: linear-gradient(to bottom, #d4d4d4, #f0f0f0);
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 2rem;
+        /* Results */
+        .result-section {
             display: none;
+            margin-top: 15px;
         }
         
-        .loading.active {
-            display: block;
-        }
-        
-        .spinner {
-            display: inline-block;
-            width: 1rem;
-            height: 1rem;
-            border: 2px solid #e3e3e3;
-            border-radius: 50%;
-            border-top-color: var(--color-accent-fg);
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 0.5rem;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .result {
-            display: none;
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background-color: #f6f8fa;
-            border: 1px solid var(--color-border-default);
-            border-radius: 6px;
-        }
-        
-        .result.active {
+        .result-section.active {
             display: block;
         }
         
         .video-preview {
             width: 100%;
             max-width: 400px;
-            border-radius: 6px;
-            margin-bottom: 1rem;
             background: #000;
+            margin: 10px 0;
+            border: 2px inset #c0c0c0;
         }
         
         .download-options {
             display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
         }
         
-        .download-btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.375rem 0.75rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-decoration: none;
-            border: 1px solid var(--color-border-default);
-            border-radius: 6px;
-            background-color: #ffffff;
-            color: #1F2328;
-            transition: all 0.2s ease;
+        /* Tabs */
+        .xp-tabs {
+            display: flex;
+            background: #c0c0c0;
+            border-bottom: 2px solid #003c74;
+            padding: 2px 2px 0 2px;
         }
         
-        .download-btn:hover {
-            background-color: #f6f8fa;
-            border-color: var(--color-border-muted);
+        .xp-tab {
+            background: linear-gradient(to bottom, #d4d4d4, #c0c0c0);
+            border: 1px solid #808080;
+            border-bottom: none;
+            padding: 4px 12px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-right: 2px;
+            border-radius: 3px 3px 0 0;
         }
         
-        .download-btn.primary {
-            background-color: var(--color-accent-fg);
-            color: #ffffff;
-            border-color: var(--color-accent-fg);
+        .xp-tab.active {
+            background: linear-gradient(to bottom, #ece9d8, #d4d4d4);
+            border-bottom: 1px solid #ece9d8;
+            margin-bottom: -1px;
         }
         
-        .download-btn.primary:hover {
-            background-color: #0860c4;
-        }
-        
-        .flash {
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            border: 1px solid transparent;
-        }
-        
-        .flash-error {
-            color: #cf222e;
-            background-color: #ffebe9;
-            border-color: #ffcecb;
-        }
-        
-        .flash-success {
-            color: #1a7f37;
-            background-color: #dafbe1;
-            border-color: #ace6ba;
-        }
-        
-        .footer {
-            background-color: #f6f8fa;
-            border-top: 1px solid var(--color-border-default);
-            padding: 2rem 0;
-            margin-top: auto;
-        }
-        
-        .footer-content {
-            text-align: center;
-            color: #656d76;
-            font-size: 0.875rem;
-        }
-        
-        .api-config {
-            background-color: #f6f8fa;
-            border: 1px solid var(--color-border-default);
-            border-radius: 6px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .api-config h3 {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            color: #1F2328;
-        }
-        
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border-radius: 2em;
-            margin-left: 0.5rem;
-        }
-        
-        .status-badge.connected {
-            background-color: #dafbe1;
-            color: #1a7f37;
-        }
-        
-        .status-badge.disconnected {
-            background-color: #ffebe9;
-            color: #cf222e;
-        }
-        
-        .instructions {
-            background-color: #f6f8fa;
-            border: 1px solid var(--color-border-default);
-            border-radius: 6px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .instructions h3 {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            color: #1F2328;
-        }
-        
-        .instructions ol {
-            padding-left: 1.5rem;
-        }
-        
-        .instructions li {
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-            color: #656d76;
-        }
-        
-        .code {
-            font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
-            background-color: #f6f8fa;
-            padding: 0.125rem 0.25rem;
-            border-radius: 3px;
-            font-size: 0.75rem;
-            color: #1F2328;
-        }
-        
-        .select-wrapper {
-            position: relative;
-        }
-        
-        .select-wrapper::after {
-            content: '▼';
-            font-size: 0.75rem;
-            position: absolute;
-            right: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            color: #656d76;
-        }
-        
-        .select-wrapper select {
-            appearance: none;
-            padding-right: 2rem;
-        }
-        
-        .progress-section {
+        .tab-content {
             display: none;
-            margin: 1.5rem 0;
+            padding: 15px;
         }
         
-        .progress-section.active {
+        .tab-content.active {
             display: block;
         }
         
+        /* Message Box */
+        .xp-message {
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px inset #c0c0c0;
+            background: white;
+            font-size: 11px;
+        }
+        
+        .xp-message.error {
+            border-color: #ff6b6b;
+            background: #ffebeb;
+        }
+        
+        .xp-message.success {
+            border-color: #90ee90;
+            background: #f0fff0;
+        }
+        
+        /* Loading Animation */
+        .xp-loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+        
+        .xp-loading.active {
+            display: block;
+        }
+        
+        .loading-dots {
+            display: inline-block;
+            font-size: 14px;
+        }
+        
+        .loading-dots::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        
+        /* Grid Layout */
+        .xp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
         @media (max-width: 768px) {
-            .container {
-                padding: 0 1rem;
-            }
-            
-            .card {
-                padding: 1.5rem;
-            }
-            
-            .download-options {
-                flex-direction: column;
-            }
-            
-            .download-btn {
-                justify-content: center;
-            }
-            
-            .xp-buttons {
-                flex-direction: column;
+            .xp-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <h1>
-                    <svg height="32" viewBox="0 0 16 16" width="32" style="vertical-align: middle; margin-right: 0.5rem;">
-                        <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
-                    </svg>
-                    TikTok Video Downloader
-                </h1>
-                <p>Download TikTok videos without watermark using GitHub Pages</p>
+    <div class="desktop">
+        <!-- Main Application Window -->
+        <div class="xp-window">
+            <div class="window-title">
+                <span>🚀 TikTok Video Downloader - Windows XP Edition</span>
+                <div class="window-controls">
+                    <div class="window-control">_</div>
+                    <div class="window-control">□</div>
+                    <div class="window-control">×</div>
+                </div>
             </div>
-        </div>
-    </header>
-
-    <main class="main-content">
-        <div class="container">
-            <div class="card">
-                <div class="api-config">
-                    <h3>
-                        API Configuration
-                        <span class="status-badge disconnected" id="api-status">Not Configured</span>
-                    </h3>
-                    <div class="form-group">
-                        <label for="api-key">RapidAPI Key</label>
-                        <input type="text" id="api-key" class="form-control" placeholder="Enter your RapidAPI key">
-                        <small style="color: #656d76; font-size: 0.75rem; margin-top: 0.25rem; display: block;">
-                            Get your API key from: <a href="https://rapidapi.com/yi005/api/tiktok-video-no-watermark2/" target="_blank" style="color: var(--color-accent-fg);">RapidAPI TikTok API</a>
-                        </small>
+            
+            <div class="xp-tabs">
+                <div class="xp-tab active" data-tab="download">Video Download</div>
+                <div class="xp-tab" data-tab="settings">Settings</div>
+                <div class="xp-tab" data-tab="about">About</div>
+            </div>
+            
+            <!-- Download Tab -->
+            <div class="tab-content active" id="download-tab">
+                <div class="form-group">
+                    <label class="form-label">RapidAPI Key:</label>
+                    <input type="text" class="xp-input" id="api-key" placeholder="Enter your RapidAPI key">
+                    <div style="font-size: 9px; color: #666; margin-top: 2px;">
+                        Get key from: <a href="https://rapidapi.com/yi005/api/tiktok-video-no-watermark2/" target="_blank">RapidAPI</a>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="endpoint-type">Download Type</label>
-                    <div class="select-wrapper">
-                        <select id="endpoint-type" class="form-control">
-                            <option value="video">Single Video Download</option>
+                
+                <div class="xp-grid">
+                    <div class="form-group">
+                        <label class="form-label">Download Type:</label>
+                        <select class="xp-select" id="endpoint-type">
+                            <option value="video">Single Video</option>
                             <option value="feed">User Feed</option>
                         </select>
                     </div>
+                    
+                    <div class="form-group" id="url-group">
+                        <label class="form-label">TikTok URL:</label>
+                        <input type="text" class="xp-input" id="tiktok-url" placeholder="https://www.tiktok.com/@username/video/1234567890">
+                    </div>
+                    
+                    <div class="form-group" id="username-group" style="display: none;">
+                        <label class="form-label">Username:</label>
+                        <input type="text" class="xp-input" id="tiktok-username" placeholder="username (without @)">
+                    </div>
                 </div>
-
-                <div class="form-group" id="url-group">
-                    <label for="tiktok-url">TikTok Video URL</label>
-                    <input type="text" id="tiktok-url" class="form-control" placeholder="https://www.tiktok.com/@username/video/1234567890">
-                </div>
-
-                <div class="form-group" id="username-group" style="display: none;">
-                    <label for="tiktok-username">TikTok Username</label>
-                    <input type="text" id="tiktok-username" class="form-control" placeholder="username (without @)">
-                </div>
-
-                <button class="btn" id="fetch-btn">
-                    <span class="spinner" id="btn-spinner" style="display: none;"></span>
-                    <span id="btn-text">Download Video</span>
+                
+                <button class="xp-button primary" id="start-download" style="width: 100%;">
+                    🚀 Start Download
                 </button>
-
-                <div class="flash flash-error" id="error-message" style="display: none;"></div>
-                <div class="flash flash-success" id="success-message" style="display: none;"></div>
-
-                <!-- Windows XP Download Progress Section -->
-                <div class="progress-section" id="progress-section">
-                    <div class="xp-download-window">
-                        <div class="xp-window-title">Download Progress</div>
-                        
-                        <div class="xp-file-info">
-                            <div><strong>File:</strong> <span id="xp-filename">tiktok_video.mp4</span></div>
-                            <div><strong>From:</strong> <span id="xp-source">tiktok.com</span></div>
-                            <div><strong>Size:</strong> <span id="xp-filesize">Calculating...</span></div>
-                        </div>
-                        
-                        <div class="xp-progress-container">
-                            <div class="xp-progress-bar" id="xp-progress-bar"></div>
-                        </div>
-                        
-                        <div class="xp-progress-text" id="xp-progress-text">0% Complete</div>
-                        
-                        <div class="xp-progress-stages">
-                            <div class="xp-stage" id="stage-1">Initializing</div>
-                            <div class="xp-stage" id="stage-2">Connecting</div>
-                            <div class="xp-stage" id="stage-3">Downloading</div>
-                            <div class="xp-stage" id="stage-4">Processing</div>
-                            <div class="xp-stage" id="stage-5">Complete</div>
-                        </div>
-                        
-                        <div class="xp-buttons">
-                            <button class="xp-button" id="xp-pause-btn">Pause</button>
-                            <button class="xp-button" id="xp-cancel-btn">Cancel</button>
-                            <button class="xp-button" id="xp-details-btn" style="display: none;">Details</button>
-                        </div>
+                
+                <!-- Starting Progress -->
+                <div class="status-section" id="starting-section">
+                    <div class="status-title">Initializing Download</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="starting-progress"></div>
+                    </div>
+                    <div class="progress-text" id="starting-text">0% - Preparing download...</div>
+                    <div class="status-stages">
+                        <div class="status-stage completed" id="stage-1">System Check</div>
+                        <div class="status-stage active" id="stage-2">API Connection</div>
+                        <div class="status-stage" id="stage-3">URL Validation</div>
+                        <div class="status-stage" id="stage-4">Ready</div>
                     </div>
                 </div>
-
-                <div class="result" id="result">
-                    <h3 style="margin-bottom: 1rem; font-size: 1.125rem;">Video Ready for Download</h3>
-                    
-                    <div style="margin-bottom: 1rem;">
-                        <video class="video-preview" id="video-preview" controls style="width: 100%; max-width: 400px;"></video>
+                
+                <!-- Downloading Progress -->
+                <div class="status-section" id="downloading-section">
+                    <div class="status-title">Downloading Video</div>
+                    <div class="file-info">
+                        <div class="file-info-row">
+                            <span class="file-info-label">File:</span>
+                            <span id="download-filename">tiktok_video.mp4</span>
+                        </div>
+                        <div class="file-info-row">
+                            <span class="file-info-label">Source:</span>
+                            <span id="download-source">tiktok.com</span>
+                        </div>
+                        <div class="file-info-row">
+                            <span class="file-info-label">Size:</span>
+                            <span id="download-size">Calculating...</span>
+                        </div>
                     </div>
-                    
+                    <div class="progress-container">
+                        <div class="progress-bar animated" id="download-progress"></div>
+                    </div>
+                    <div class="progress-text" id="download-text">0% - Starting download...</div>
+                    <div class="status-stages">
+                        <div class="status-stage completed" id="dl-stage-1">Connected</div>
+                        <div class="status-stage active" id="dl-stage-2">Downloading</div>
+                        <div class="status-stage" id="dl-stage-3">Processing</div>
+                        <div class="status-stage" id="dl-stage-4">Verifying</div>
+                    </div>
+                    <div class="download-options" style="margin-top: 10px;">
+                        <button class="xp-button" id="pause-btn">⏸️ Pause</button>
+                        <button class="xp-button" id="cancel-btn">❌ Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Processing Progress -->
+                <div class="status-section" id="processing-section">
+                    <div class="status-title">Processing Video</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="processing-progress"></div>
+                    </div>
+                    <div class="progress-text" id="processing-text">0% - Removing watermark...</div>
+                    <div class="status-stages">
+                        <div class="status-stage completed" id="proc-stage-1">Downloaded</div>
+                        <div class="status-stage active" id="proc-stage-2">Watermark Removal</div>
+                        <div class="status-stage" id="proc-stage-3">Quality Check</div>
+                        <div class="status-stage" id="proc-stage-4">Finalizing</div>
+                    </div>
+                </div>
+                
+                <!-- Waiting Bar -->
+                <div class="status-section" id="waiting-section">
+                    <div class="status-title">Finalizing Download</div>
+                    <div class="xp-loading" id="final-loading">
+                        <div class="loading-dots">Processing</div>
+                    </div>
+                    <div class="progress-text">Almost complete - Preparing your video for download</div>
+                </div>
+                
+                <!-- Messages -->
+                <div class="xp-message" id="error-message" style="display: none;"></div>
+                <div class="xp-message success" id="success-message" style="display: none;"></div>
+                
+                <!-- Results -->
+                <div class="result-section" id="result-section">
+                    <div class="status-title">🎉 Download Complete!</div>
+                    <video class="video-preview" id="video-preview" controls></video>
                     <div class="download-options">
-                        <a href="#" class="download-btn primary" id="download-no-watermark">
-                            <svg width="16" height="16" viewBox="0 0 16 16" style="margin-right: 0.25rem;">
-                                <path fill="currentColor" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
-                            </svg>
-                            Download (No Watermark)
-                        </a>
-                        <a href="#" class="download-btn" id="download-watermark">
-                            <svg width="16" height="16" viewBox="0 0 16 16" style="margin-right: 0.25rem;">
-                                <path fill="currentColor" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
-                            </svg>
-                            With Watermark
-                        </a>
+                        <button class="xp-button primary" id="download-nowatermark">
+                            ⬇️ Download (No Watermark)
+                        </button>
+                        <button class="xp-button" id="download-watermark">
+                            ⬇️ With Watermark
+                        </button>
+                        <button class="xp-button" id="download-audio">
+                            🎵 Audio Only
+                        </button>
                     </div>
                 </div>
             </div>
-
-            <div class="instructions">
-                <h3>How to Use</h3>
-                <ol>
-                    <li>Get your free API key from <a href="https://rapidapi.com/yi005/api/tiktok-video-no-watermark2/" target="_blank" style="color: var(--color-accent-fg);">RapidAPI</a></li>
-                    <li>Enter your API key in the configuration section above</li>
-                    <li>Paste a TikTok video URL or enter a username</li>
-                    <li>Click "Download Video" to process</li>
-                    <li>Watch the Windows XP-style progress bar</li>
-                    <li>Choose your preferred download option</li>
-                </ol>
+            
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings-tab">
+                <div class="form-group">
+                    <label class="form-label">Download Folder:</label>
+                    <div style="display: flex; gap: 5px;">
+                        <input type="text" class="xp-input" value="C:\Downloads\TikTok\" readonly>
+                        <button class="xp-button">Browse</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Video Quality:</label>
+                    <select class="xp-select">
+                        <option>Best Available</option>
+                        <option>1080p HD</option>
+                        <option>720p</option>
+                        <option>480p</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" checked> Auto-delete watermarked version
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox"> Show detailed progress
+                    </label>
+                </div>
+                
+                <button class="xp-button primary">Save Settings</button>
+            </div>
+            
+            <!-- About Tab -->
+            <div class="tab-content" id="about-tab">
+                <div class="file-info">
+                    <div class="file-info-row">
+                        <span class="file-info-label">Application:</span>
+                        <span>TikTok Video Downloader</span>
+                    </div>
+                    <div class="file-info-row">
+                        <span class="file-info-label">Version:</span>
+                        <span>Windows XP Edition 1.0</span>
+                    </div>
+                    <div class="file-info-row">
+                        <span class="file-info-label">API:</span>
+                        <span>RapidAPI TikTok No Watermark</span>
+                    </div>
+                    <div class="file-info-row">
+                        <span class="file-info-label">Developer:</span>
+                        <span>Classic Systems</span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px; font-size: 10px; color: #666;">
+                    <p>This application uses the TikTok Video No Watermark API from RapidAPI to download videos without watermarks.</p>
+                    <p style="margin-top: 8px;">© 2023 Classic Systems - Windows XP Style Interface</p>
+                </div>
             </div>
         </div>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>Deployed with GitHub Pages • Uses TikTok Video No Watermark API</p>
-                <p style="margin-top: 0.5rem; font-size: 0.75rem;">
-                    This is a frontend interface. Actual API calls require proper CORS configuration.
-                </p>
-            </div>
+        
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <button class="start-button">
+                <span>🪟 Start</span>
+            </button>
+            <div class="taskbar-time" id="current-time">Loading...</div>
         </div>
-    </footer>
+    </div>
 
     <script>
-        class TikTokDownloader {
+        class TikTokDownloaderXP {
             constructor() {
                 this.apiHost = 'tiktok-video-no-watermark2.p.rapidapi.com';
                 this.isDownloading = false;
-                this.currentProgress = 0;
-                this.progressInterval = null;
+                this.isPaused = false;
+                this.currentSection = null;
+                this.progressIntervals = {};
                 this.init();
             }
 
             init() {
                 this.bindEvents();
+                this.setupTabs();
                 this.setupInputToggling();
-                this.updateApiStatus();
+                this.updateTime();
+                setInterval(() => this.updateTime(), 1000);
             }
 
             bindEvents() {
-                // API key input
-                document.getElementById('api-key').addEventListener('input', () => this.updateApiStatus());
+                // Start download
+                document.getElementById('start-download').addEventListener('click', () => this.startDownloadProcess());
                 
-                // Fetch button
-                document.getElementById('fetch-btn').addEventListener('click', () => this.startDownloadProcess());
+                // Control buttons
+                document.getElementById('pause-btn').addEventListener('click', () => this.togglePause());
+                document.getElementById('cancel-btn').addEventListener('click', () => this.cancelDownload());
                 
-                // XP Progress buttons
-                document.getElementById('xp-pause-btn').addEventListener('click', () => this.togglePause());
-                document.getElementById('xp-cancel-btn').addEventListener('click', () => this.cancelDownload());
-                document.getElementById('xp-details-btn').addEventListener('click', () => this.showDetails());
+                // Download options
+                document.getElementById('download-nowatermark').addEventListener('click', () => this.finalDownload('no-watermark'));
+                document.getElementById('download-watermark').addEventListener('click', () => this.finalDownload('watermark'));
+                document.getElementById('download-audio').addEventListener('click', () => this.finalDownload('audio'));
                 
-                // Download buttons
-                document.getElementById('download-no-watermark').addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.downloadVideo('no-watermark');
-                });
-                
-                document.getElementById('download-watermark').addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.downloadVideo('watermark');
+                // Endpoint type change
+                document.getElementById('endpoint-type').addEventListener('change', () => this.setupInputToggling());
+            }
+
+            setupTabs() {
+                const tabs = document.querySelectorAll('.xp-tab');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        // Remove active class from all tabs and contents
+                        document.querySelectorAll('.xp-tab').forEach(t => t.classList.remove('active'));
+                        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                        
+                        // Add active class to clicked tab and corresponding content
+                        tab.classList.add('active');
+                        const tabId = tab.getAttribute('data-tab');
+                        document.getElementById(`${tabId}-tab`).classList.add('active');
+                    });
                 });
             }
 
             setupInputToggling() {
-                const endpointSelect = document.getElementById('endpoint-type');
+                const endpointType = document.getElementById('endpoint-type').value;
                 const urlGroup = document.getElementById('url-group');
                 const usernameGroup = document.getElementById('username-group');
-
-                endpointSelect.addEventListener('change', () => {
-                    if (endpointSelect.value === 'video') {
-                        urlGroup.style.display = 'block';
-                        usernameGroup.style.display = 'none';
-                    } else {
-                        urlGroup.style.display = 'none';
-                        usernameGroup.style.display = 'block';
-                    }
-                });
-            }
-
-            updateApiStatus() {
-                const apiKey = document.getElementById('api-key').value.trim();
-                const statusElement = document.getElementById('api-status');
                 
-                if (apiKey) {
-                    statusElement.textContent = 'Configured';
-                    statusElement.className = 'status-badge connected';
+                if (endpointType === 'video') {
+                    urlGroup.style.display = 'block';
+                    usernameGroup.style.display = 'none';
                 } else {
-                    statusElement.textContent = 'Not Configured';
-                    statusElement.className = 'status-badge disconnected';
+                    urlGroup.style.display = 'none';
+                    usernameGroup.style.display = 'block';
                 }
             }
 
@@ -721,6 +710,8 @@
                 const endpointType = document.getElementById('endpoint-type').value;
                 
                 this.hideMessages();
+                this.hideAllSections();
+                this.hideResult();
                 
                 // Validation
                 if (!apiKey) {
@@ -748,128 +739,217 @@
                     url = `https://www.tiktok.com/@${username}`;
                 }
 
-                this.setLoading(true);
-                this.showProgressSection();
-                this.startProgressAnimation();
+                // Update file info
+                document.getElementById('download-filename').textContent = this.extractFilename(url);
+                document.getElementById('download-source').textContent = new URL(url).hostname;
 
-                try {
-                    // Simulate API call with progress updates
-                    await this.simulateDownloadWithProgress(url);
+                // Start the multi-stage download process
+                await this.runStartingProcess();
+                await this.runDownloadingProcess();
+                await this.runProcessingProcess();
+                await this.runWaitingProcess();
+                await this.finalizeDownload(url, endpointType, apiKey);
+            }
+
+            async runStartingProcess() {
+                this.showSection('starting-section');
+                return new Promise((resolve) => {
+                    let progress = 0;
+                    const progressBar = document.getElementById('starting-progress');
+                    const progressText = document.getElementById('starting-text');
                     
-                    // After "download", process the actual API call
-                    await this.fetchVideoData(url, endpointType, apiKey);
+                    const interval = setInterval(() => {
+                        if (this.isPaused) return;
+                        
+                        progress += Math.random() * 8;
+                        if (progress >= 100) {
+                            progress = 100;
+                            clearInterval(interval);
+                            this.updateStage('starting', 4);
+                            progressText.textContent = '100% - Ready to download';
+                            setTimeout(resolve, 500);
+                        } else {
+                            this.updateProgress(progressBar, progress);
+                            progressText.textContent = `${Math.round(progress)}% - ${this.getStartingStatus(progress)}`;
+                            
+                            // Update stages
+                            if (progress >= 25) this.updateStage('starting', 2);
+                            if (progress >= 50) this.updateStage('starting', 3);
+                            if (progress >= 75) this.updateStage('starting', 4);
+                        }
+                    }, 100);
+                    
+                    this.progressIntervals.starting = interval;
+                });
+            }
+
+            async runDownloadingProcess() {
+                this.showSection('downloading-section');
+                return new Promise((resolve) => {
+                    let progress = 0;
+                    const progressBar = document.getElementById('download-progress');
+                    const progressText = document.getElementById('download-text');
+                    
+                    // Simulate file size calculation
+                    const fileSize = Math.floor(Math.random() * 10) + 5;
+                    document.getElementById('download-size').textContent = `${fileSize} MB`;
+                    
+                    const interval = setInterval(() => {
+                        if (this.isPaused) return;
+                        
+                        progress += Math.random() * 4;
+                        if (progress >= 100) {
+                            progress = 100;
+                            clearInterval(interval);
+                            this.updateStage('downloading', 4);
+                            progressText.textContent = '100% - Download complete';
+                            setTimeout(resolve, 500);
+                        } else {
+                            this.updateProgress(progressBar, progress);
+                            const downloadedMB = (fileSize * progress / 100).toFixed(1);
+                            progressText.textContent = `${Math.round(progress)}% - ${downloadedMB} MB of ${fileSize} MB`;
+                            
+                            // Update stages
+                            if (progress >= 25) this.updateStage('downloading', 2);
+                            if (progress >= 50) this.updateStage('downloading', 3);
+                            if (progress >= 75) this.updateStage('downloading', 4);
+                        }
+                    }, 150);
+                    
+                    this.progressIntervals.downloading = interval;
+                });
+            }
+
+            async runProcessingProcess() {
+                this.showSection('processing-section');
+                return new Promise((resolve) => {
+                    let progress = 0;
+                    const progressBar = document.getElementById('processing-progress');
+                    const progressText = document.getElementById('processing-text');
+                    
+                    const interval = setInterval(() => {
+                        if (this.isPaused) return;
+                        
+                        progress += Math.random() * 6;
+                        if (progress >= 100) {
+                            progress = 100;
+                            clearInterval(interval);
+                            this.updateStage('processing', 4);
+                            progressText.textContent = '100% - Processing complete';
+                            setTimeout(resolve, 500);
+                        } else {
+                            this.updateProgress(progressBar, progress);
+                            progressText.textContent = `${Math.round(progress)}% - ${this.getProcessingStatus(progress)}`;
+                            
+                            // Update stages
+                            if (progress >= 33) this.updateStage('processing', 2);
+                            if (progress >= 66) this.updateStage('processing', 3);
+                            if (progress >= 90) this.updateStage('processing', 4);
+                        }
+                    }, 120);
+                    
+                    this.progressIntervals.processing = interval;
+                });
+            }
+
+            async runWaitingProcess() {
+                this.showSection('waiting-section');
+                document.getElementById('final-loading').classList.add('active');
+                
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        document.getElementById('final-loading').classList.remove('active');
+                        resolve();
+                    }, 2000);
+                });
+            }
+
+            async finalizeDownload(url, endpointType, apiKey) {
+                try {
+                    // Simulate API call
+                    const videoUrl = 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4';
+                    
+                    document.getElementById('video-preview').src = videoUrl;
+                    this.showResult();
+                    this.showSuccess('🎉 Video downloaded successfully! Ready for final download.');
                     
                 } catch (error) {
-                    console.error('Download Failed:', error);
                     this.showError(`Download failed: ${error.message}`);
-                    this.completeProgress(true); // Complete with error
                 }
             }
 
-            startProgressAnimation() {
-                this.isDownloading = true;
-                this.currentProgress = 0;
-                this.updateProgress(0);
-                this.updateStage(1);
-                
-                this.progressInterval = setInterval(() => {
-                    if (this.isDownloading) {
-                        this.currentProgress += Math.random() * 5;
-                        if (this.currentProgress >= 100) {
-                            this.currentProgress = 100;
-                            this.completeProgress();
-                        }
-                        this.updateProgress(this.currentProgress);
-                        
-                        // Update stages based on progress
-                        if (this.currentProgress >= 20) this.updateStage(2);
-                        if (this.currentProgress >= 40) this.updateStage(3);
-                        if (this.currentProgress >= 70) this.updateStage(4);
-                    }
-                }, 200);
+            // Utility methods
+            showSection(sectionId) {
+                this.hideAllSections();
+                document.getElementById(sectionId).classList.add('active');
+                this.currentSection = sectionId;
             }
 
-            updateProgress(percentage) {
-                const progressBar = document.getElementById('xp-progress-bar');
-                const progressText = document.getElementById('xp-progress-text');
-                
+            hideAllSections() {
+                document.querySelectorAll('.status-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+            }
+
+            showResult() {
+                document.getElementById('result-section').classList.add('active');
+            }
+
+            hideResult() {
+                document.getElementById('result-section').classList.remove('active');
+            }
+
+            updateProgress(progressBar, percentage) {
                 progressBar.style.width = `${percentage}%`;
-                progressText.textContent = `${Math.round(percentage)}% Complete`;
-                
-                // Add animation when downloading
-                if (percentage > 0 && percentage < 100) {
-                    progressBar.classList.add('animated');
-                } else {
-                    progressBar.classList.remove('animated');
-                }
             }
 
-            updateStage(stageNumber) {
-                // Reset all stages
-                for (let i = 1; i <= 5; i++) {
-                    const stage = document.getElementById(`stage-${i}`);
+            updateStage(process, stageNumber) {
+                const stages = document.querySelectorAll(`#${process}-section .status-stage`);
+                stages.forEach((stage, index) => {
                     stage.classList.remove('active', 'completed');
-                }
-                
-                // Set current and completed stages
-                for (let i = 1; i <= stageNumber; i++) {
-                    const stage = document.getElementById(`stage-${i}`);
-                    if (i === stageNumber) {
-                        stage.classList.add('active');
-                    } else {
+                    if (index + 1 < stageNumber) {
                         stage.classList.add('completed');
+                    } else if (index + 1 === stageNumber) {
+                        stage.classList.add('active');
                     }
-                }
-            }
-
-            completeProgress(isError = false) {
-                clearInterval(this.progressInterval);
-                this.isDownloading = false;
-                
-                if (isError) {
-                    this.updateProgress(0);
-                    this.updateStage(1);
-                    document.getElementById('xp-progress-text').textContent = 'Download Failed';
-                    document.getElementById('xp-progress-bar').style.background = 'linear-gradient(to bottom, #ff6b6b, #ff4757)';
-                } else {
-                    this.updateProgress(100);
-                    this.updateStage(5);
-                    document.getElementById('xp-progress-text').textContent = 'Download Complete!';
-                    document.getElementById('xp-details-btn').style.display = 'inline-block';
-                }
+                });
             }
 
             togglePause() {
-                this.isDownloading = !this.isDownloading;
-                const pauseBtn = document.getElementById('xp-pause-btn');
-                pauseBtn.textContent = this.isDownloading ? 'Pause' : 'Resume';
+                this.isPaused = !this.isPaused;
+                const pauseBtn = document.getElementById('pause-btn');
+                pauseBtn.textContent = this.isPaused ? '▶️ Resume' : '⏸️ Pause';
             }
 
             cancelDownload() {
-                clearInterval(this.progressInterval);
+                // Clear all intervals
+                Object.values(this.progressIntervals).forEach(interval => {
+                    if (interval) clearInterval(interval);
+                });
+                
                 this.isDownloading = false;
-                this.hideProgressSection();
-                this.setLoading(false);
+                this.isPaused = false;
+                this.hideAllSections();
                 this.showError('Download cancelled by user');
             }
 
-            showDetails() {
-                this.showSuccess('Download details: Video processed successfully and ready for download.');
+            finalDownload(type) {
+                this.showSuccess(`Starting ${type} download...`);
+                // In real implementation, this would trigger actual download
             }
 
-            showProgressSection() {
-                document.getElementById('progress-section').classList.add('active');
-                
-                // Update file info
-                const url = document.getElementById('tiktok-url').value.trim() || 
-                           `https://www.tiktok.com/@${document.getElementById('tiktok-username').value.trim()}`;
-                document.getElementById('xp-filename').textContent = this.extractFilename(url);
-                document.getElementById('xp-source').textContent = new URL(url).hostname;
-                document.getElementById('xp-filesize').textContent = '~5-15 MB (estimated)';
+            getStartingStatus(progress) {
+                if (progress < 25) return 'Checking system...';
+                if (progress < 50) return 'Connecting to API...';
+                if (progress < 75) return 'Validating URL...';
+                return 'Finalizing setup...';
             }
 
-            hideProgressSection() {
-                document.getElementById('progress-section').classList.remove('active');
+            getProcessingStatus(progress) {
+                if (progress < 33) return 'Removing watermark...';
+                if (progress < 66) return 'Optimizing quality...';
+                if (progress < 90) return 'Final processing...';
+                return 'Complete';
             }
 
             extractFilename(url) {
@@ -883,134 +963,18 @@
                 }
             }
 
-            async simulateDownloadWithProgress(url) {
-                return new Promise((resolve) => {
-                    // This is just for simulation - in real implementation, 
-                    // you'd track actual download progress
-                    setTimeout(resolve, 3000);
-                });
-            }
-
-            async fetchVideoData(url, endpointType, apiKey) {
-                try {
-                    let apiUrl, params;
-                    
-                    if (endpointType === 'video') {
-                        apiUrl = `https://${this.apiHost}/`;
-                        params = { url: url };
-                    } else {
-                        apiUrl = `https://${this.apiHost}/user/feed`;
-                        params = {
-                            unique_id: document.getElementById('tiktok-username').value.trim(),
-                            count: '1',
-                            cursor: '0'
-                        };
-                    }
-
-                    const response = await this.callRapidAPI(apiUrl, params, apiKey);
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        this.processApiResponse(data, endpointType);
-                    } else {
-                        throw new Error(`API Error: ${response.status}`);
-                    }
-                } catch (error) {
-                    console.error('API Call Failed:', error);
-                    throw error;
-                }
-            }
-
-            async callRapidAPI(url, params, apiKey) {
-                const queryString = new URLSearchParams(params).toString();
-                const fullUrl = queryString ? `${url}?${queryString}` : url;
-
-                const options = {
-                    method: 'GET',
-                    headers: {
-                        'X-RapidAPI-Key': apiKey,
-                        'X-RapidAPI-Host': this.apiHost
-                    }
-                };
-
-                return await fetch(fullUrl, options);
-            }
-
-            processApiResponse(data, endpointType) {
-                console.log('API Response:', data);
-                
-                let videoData = null;
-
-                if (endpointType === 'video') {
-                    videoData = data.data;
-                } else {
-                    const videos = data.data?.videos || data.data;
-                    if (videos && videos.length > 0) {
-                        videoData = videos[0];
-                    }
-                }
-
-                if (!videoData) {
-                    throw new Error('No video data found in response');
-                }
-
-                this.displayVideoResult(videoData);
-                this.showSuccess('Video downloaded and processed successfully!');
-            }
-
-            displayVideoResult(videoData) {
-                const videoUrl = videoData.play || videoData.download_addr?.url_list?.[0] || videoData.video_url;
-                
-                if (videoUrl) {
-                    document.getElementById('video-preview').src = videoUrl;
-                    
-                    // Set download links
-                    document.getElementById('download-no-watermark').href = videoUrl;
-                    document.getElementById('download-no-watermark').download = `tiktok-${videoData.id || 'video'}.mp4`;
-                    
-                    document.getElementById('download-watermark').href = videoUrl;
-                    document.getElementById('download-watermark').download = `tiktok-${videoData.id || 'video'}-watermark.mp4`;
-                    
-                    document.getElementById('result').classList.add('active');
-                } else {
-                    throw new Error('No video URL found in response');
-                }
-            }
-
-            downloadVideo(type) {
-                this.showSuccess(`Starting ${type} download...`);
-                // In a real implementation, this would trigger the actual download
-            }
-
-            // Utility methods
-            setLoading(loading) {
-                const btn = document.getElementById('fetch-btn');
-                const spinner = document.getElementById('btn-spinner');
-                const btnText = document.getElementById('btn-text');
-                
-                if (loading) {
-                    btn.disabled = true;
-                    spinner.style.display = 'inline-block';
-                    btnText.textContent = 'Processing...';
-                } else {
-                    btn.disabled = false;
-                    spinner.style.display = 'none';
-                    btnText.textContent = 'Download Video';
-                }
-            }
-
             showError(message) {
                 const element = document.getElementById('error-message');
                 element.textContent = message;
+                element.className = 'xp-message error';
                 element.style.display = 'block';
-                this.scrollToElement(element);
             }
 
             showSuccess(message) {
                 const element = document.getElementById('success-message');
                 element.textContent = message;
+                element.className = 'xp-message success';
                 element.style.display = 'block';
-                this.scrollToElement(element);
             }
 
             hideMessages() {
@@ -1018,8 +982,15 @@
                 document.getElementById('success-message').style.display = 'none';
             }
 
-            scrollToElement(element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', { 
+                    hour12: true, 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                document.getElementById('current-time').textContent = timeString;
             }
 
             isValidTikTokUrl(url) {
@@ -1030,11 +1001,12 @@
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
-            new TikTokDownloader();
+            new TikTokDownloaderXP();
             
             // Add sample data for demo
             document.getElementById('tiktok-url').value = 'https://www.tiktok.com/@tiktok/video/1234567890';
             document.getElementById('tiktok-username').value = 'tiktok';
+            document.getElementById('api-key').value = 'demo_api_key_12345';
         });
     </script>
 </body>
