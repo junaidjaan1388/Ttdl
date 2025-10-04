@@ -99,6 +99,13 @@
             transform: translateY(0);
         }
         
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
         .result {
             margin-top: 25px;
             padding: 20px;
@@ -111,10 +118,35 @@
             display: block;
         }
         
+        .video-info {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .video-info h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .video-info p {
+            margin-bottom: 5px;
+            color: #666;
+        }
+        
         .video-preview {
             width: 100%;
             border-radius: 8px;
             margin-bottom: 15px;
+            background: #000;
+        }
+        
+        .download-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
         .download-btn {
@@ -127,10 +159,28 @@
             font-weight: 600;
             text-align: center;
             transition: all 0.3s;
+            flex: 1;
+            min-width: 120px;
         }
         
         .download-btn:hover {
             background-color: #e00046;
+        }
+        
+        .download-btn.watermark {
+            background-color: #00a2ff;
+        }
+        
+        .download-btn.watermark:hover {
+            background-color: #0088cc;
+        }
+        
+        .download-btn.audio {
+            background-color: #4CAF50;
+        }
+        
+        .download-btn.audio:hover {
+            background-color: #3d8b40;
         }
         
         .loading {
@@ -193,9 +243,28 @@
             margin-top: 10px;
             font-size: 14px;
             display: none;
+            padding: 10px;
+            background: #ffe6e6;
+            border-radius: 5px;
+            border-left: 4px solid #ff0050;
         }
         
         .error.active {
+            display: block;
+        }
+        
+        .success {
+            color: #4CAF50;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 5px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .success.active {
             display: block;
         }
     </style>
@@ -216,6 +285,7 @@
             <button class="btn" id="download-btn">Download Video</button>
             
             <div class="error" id="error-message"></div>
+            <div class="success" id="success-message"></div>
             
             <div class="loading" id="loading">
                 <div class="spinner"></div>
@@ -223,9 +293,20 @@
             </div>
             
             <div class="result" id="result">
-                <h3>Video Ready for Download</h3>
+                <div class="video-info" id="video-info">
+                    <h3>Video Information</h3>
+                    <p id="video-author"></p>
+                    <p id="video-desc"></p>
+                    <p id="video-duration"></p>
+                </div>
+                
                 <video class="video-preview" id="video-preview" controls></video>
-                <a href="#" class="download-btn" id="download-link">Download Video</a>
+                
+                <div class="download-options">
+                    <a href="#" class="download-btn" id="download-no-watermark">Download (No Watermark)</a>
+                    <a href="#" class="download-btn watermark" id="download-watermark">Download (With Watermark)</a>
+                    <a href="#" class="download-btn audio" id="download-audio">Audio Only</a>
+                </div>
             </div>
             
             <div class="instructions">
@@ -235,7 +316,7 @@
                     <li>Tap the "Share" button and copy the link</li>
                     <li>Paste the link in the field above</li>
                     <li>Click "Download Video" and wait for processing</li>
-                    <li>Download your video without watermark</li>
+                    <li>Choose your preferred download option</li>
                 </ol>
             </div>
         </div>
@@ -246,20 +327,49 @@
     </div>
 
     <script>
+        // Sample JSON data for simulation
+        const sampleVideoData = {
+            "status": "success",
+            "data": {
+                "id": "1234567890",
+                "author": {
+                    "username": "@tiktokuser",
+                    "nickname": "TikTok User"
+                },
+                "description": "Check out this amazing TikTok video! #fun #viral",
+                "duration": "00:15",
+                "video": {
+                    "noWatermark": "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
+                    "withWatermark": "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
+                    "audio": "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4"
+                },
+                "cover": "https://via.placeholder.com/300x400/ff0050/ffffff?text=TikTok+Thumbnail"
+            }
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
             const tiktokUrlInput = document.getElementById('tiktok-url');
             const downloadBtn = document.getElementById('download-btn');
             const loading = document.getElementById('loading');
             const result = document.getElementById('result');
             const videoPreview = document.getElementById('video-preview');
-            const downloadLink = document.getElementById('download-link');
+            const videoInfo = document.getElementById('video-info');
+            const videoAuthor = document.getElementById('video-author');
+            const videoDesc = document.getElementById('video-desc');
+            const videoDuration = document.getElementById('video-duration');
+            const downloadNoWatermark = document.getElementById('download-no-watermark');
+            const downloadWatermark = document.getElementById('download-watermark');
+            const downloadAudio = document.getElementById('download-audio');
             const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
             
+            // Event listener for download button
             downloadBtn.addEventListener('click', function() {
                 const tiktokUrl = tiktokUrlInput.value.trim();
                 
                 // Reset previous states
                 errorMessage.classList.remove('active');
+                successMessage.classList.remove('active');
                 result.classList.remove('active');
                 
                 // Validate input
@@ -275,35 +385,100 @@
                 
                 // Show loading state
                 loading.classList.add('active');
+                downloadBtn.disabled = true;
                 
-                // Simulate API processing
+                // Simulate API processing with timeout
                 setTimeout(() => {
-                    loading.classList.remove('active');
-                    
-                    // For demonstration, we'll use a sample video
-                    // In a real implementation, you would get the video URL from an API
-                    const videoUrl = 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4';
-                    
-                    // Set video source and download link
-                    videoPreview.src = videoUrl;
-                    downloadLink.href = videoUrl;
-                    downloadLink.download = 'tiktok-video.mp4';
-                    
-                    // Show result
-                    result.classList.add('active');
+                    processTikTokUrl(tiktokUrl);
                 }, 2000);
             });
             
+            // Function to process TikTok URL (simulated)
+            function processTikTokUrl(url) {
+                // In a real implementation, you would make an API call here
+                // For this simulation, we'll use our sample data
+                
+                // Hide loading
+                loading.classList.remove('active');
+                downloadBtn.disabled = false;
+                
+                // Check if the URL contains a valid video ID (simulated)
+                if (url.includes('video/')) {
+                    // Parse response data (simulated API response)
+                    const responseData = sampleVideoData;
+                    
+                    if (responseData.status === 'success') {
+                        displayVideoData(responseData.data);
+                        showSuccess('Video information loaded successfully!');
+                    } else {
+                        showError('Failed to fetch video information. Please try again.');
+                    }
+                } else {
+                    showError('Invalid TikTok video URL. Please make sure it contains a video ID.');
+                }
+            }
+            
+            // Function to display video data
+            function displayVideoData(videoData) {
+                // Update video information
+                videoAuthor.textContent = `Author: ${videoData.author.nickname} (${videoData.author.username})`;
+                videoDesc.textContent = `Description: ${videoData.description}`;
+                videoDuration.textContent = `Duration: ${videoData.duration}`;
+                
+                // Set video preview
+                videoPreview.src = videoData.video.noWatermark;
+                videoPreview.poster = videoData.cover;
+                
+                // Set download links
+                downloadNoWatermark.href = videoData.video.noWatermark;
+                downloadNoWatermark.download = `tiktok-${videoData.id}-no-watermark.mp4`;
+                
+                downloadWatermark.href = videoData.video.withWatermark;
+                downloadWatermark.download = `tiktok-${videoData.id}-with-watermark.mp4`;
+                
+                downloadAudio.href = videoData.video.audio;
+                downloadAudio.download = `tiktok-${videoData.id}-audio.mp3`;
+                
+                // Show result section
+                result.classList.add('active');
+            }
+            
+            // Function to show error message
             function showError(message) {
                 errorMessage.textContent = message;
                 errorMessage.classList.add('active');
             }
             
+            // Function to show success message
+            function showSuccess(message) {
+                successMessage.textContent = message;
+                successMessage.classList.add('active');
+            }
+            
+            // Function to validate TikTok URL
             function isValidTikTokUrl(url) {
                 const tiktokRegex = /https?:\/\/(www\.)?tiktok\.com\/.+/;
                 return tiktokRegex.test(url);
             }
+            
+            // Add event listeners for download buttons to simulate download
+            [downloadNoWatermark, downloadWatermark, downloadAudio].forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const format = this.id.replace('download-', '');
+                    const formatName = format === 'no-watermark' ? 'No Watermark' : 
+                                     format === 'watermark' ? 'With Watermark' : 'Audio Only';
+                    
+                    showSuccess(`Downloading ${formatName} version... (This is a simulation)`);
+                    
+                    // In a real implementation, this would trigger the actual download
+                    // For simulation, we'll just show a success message
+                });
+            });
+            
+            // Add sample URLs for quick testing
+            tiktokUrlInput.value = "https://www.tiktok.com/@username/video/1234567890";
         });
     </script>
 </body>
-</html>
+        </html>
